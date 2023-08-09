@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>大哥金嗓子模拟器</title>
+</head>
+
+<body>
+    <br><br>
+    <table>
+        <tr>
+            <td><img id="gif" src="picture/静图.jpg" style="width: 700px; display: none;"></td>
+            <td>
+                <h1 align="center">大哥金嗓子模拟器</h1>
+                <h4 align="center">by: 董杭杭</h4>
+                <br>
+                <div style="text-align: center;">
+                    <input type="button" value="开始" onclick="start()" style="margin: 0 auto;">
+                    <br><br><br>
+                    <input type="image" id="wowu_png" src="picture/技能_我无.png" onclick="wowu()"
+                        style="margin: 0 auto;  display: none;">
+                    <br><br><br>
+                    <img id="jindutiao" src="picture/进度条0.png" style="width: 350px; display: none;">
+                    <br><br>
+                    <h4 id="jindutiao_text" align="center" style="display: none;">暖机进度： 0%</h4>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <audio id="s1" src="voice/编入队伍.wav" autoplay></audio>
+    <audio id="s2" src="voice/行动出发.wav" autoplay></audio>
+    <audio id="s3" src="voice/选中干员1.wav" autoplay></audio>
+    <audio id="s4" src="voice/选中干员2.wav" autoplay></audio>
+
+    <audio id="1" src="voice/作战中1.wav" autoplay></audio>
+    <audio id="2" src="voice/作战中2.wav" autoplay></audio>
+    <audio id="3" src="voice/作战中3.wav" autoplay></audio>
+    <audio id="4" src="voice/作战中4.wav" autoplay></audio>
+
+    <script>
+        var start_count = 0
+        function start() {
+            if (start_count == 0) {
+                start_count = 1
+
+                document.getElementById('gif').style.display = "block";
+                if (Math.random() < 0.5) {
+                    document.getElementById('s1').play();
+                } else {
+                    document.getElementById('s2').play();
+                }
+
+                setTimeout(() => {
+                    if (Math.random() < 0.5) {
+                        document.getElementById('s3').play();
+                    } else {
+                        document.getElementById('s4').play();
+                    }
+
+                    setTimeout(() => {
+                        document.getElementById('wowu_png').style.display = "block";
+                        document.getElementById('jindutiao').style.display = "block";
+                        document.getElementById('jindutiao_text').style.display = "block";
+                    }, 2000);
+                }, 5000);
+            }
+        }
+
+        var wowu_count = 0
+        async function wowu() {
+            wowu_count++;
+            if (wowu_count == 5) {
+                document.getElementById('gif').src = "picture/动图.gif";
+                document.getElementById('jindutiao').src = "picture/进度条5.png";
+                document.getElementById('jindutiao_text').innerText = "暖机进度： 100%"
+                document.getElementById('jindutiao_text').style.color = "#FF0000"
+
+                while (true) {
+                    var this_e = document.getElementById(Math.floor(Math.random() * 4 + 1).toString())
+                    this_e.play();
+                    await sleep(Math.random() * 1000 + 1000)
+                    this_e.pause();
+                    this_e.currentTime = 0;
+                }
+            } else if (wowu_count < 5) {
+                document.getElementById(Math.floor(Math.random() * 4 + 1).toString()).play();
+                document.getElementById('jindutiao').src = "picture/进度条" + wowu_count.toString() + ".png";
+                document.getElementById('jindutiao_text').innerText = "暖机进度： " + (20 * wowu_count).toString() + "%"
+            }
+        }
+
+        function sleep(interval) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve()
+                }, interval);
+            })
+        }
+    </script>
+</body>
+
+</html>
